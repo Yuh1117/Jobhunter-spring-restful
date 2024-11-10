@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import vn.vpgh.jobhunter.domain.User;
 import vn.vpgh.jobhunter.service.UserService;
+import vn.vpgh.jobhunter.service.error.IdInvalidException;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-    
+
     @PostMapping("/users")
     public ResponseEntity<User> createNewUser(@RequestBody User reqUser) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.handleSaveUser(reqUser));
@@ -28,8 +29,16 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @ExceptionHandler(value = IdInvalidException.class)
+    public ResponseEntity<String> handleIdException(IdInvalidException idException) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(idException.getMessage());
+    }
+
     @GetMapping("/users/{id}")
-    public ResponseEntity<User> getUser(@PathVariable("id") long id) {
+    public ResponseEntity<User> getUser(@PathVariable("id") long id) throws IdInvalidException {
+        if (id < 0) {
+            throw new IdInvalidException("test cai");
+        }
         return ResponseEntity.status(HttpStatus.OK).body(this.userService.getUserById(id));
     }
 

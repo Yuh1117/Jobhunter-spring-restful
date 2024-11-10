@@ -1,5 +1,7 @@
 package vn.vpgh.jobhunter.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import vn.vpgh.jobhunter.domain.User;
@@ -14,32 +16,31 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
-    @PostMapping("/user")
-    public User createNewUser(@RequestBody User reqUser) {
-        this.userService.handleSaveUser(reqUser);
-        return reqUser;
+    
+    @PostMapping("/users")
+    public ResponseEntity<User> createNewUser(@RequestBody User reqUser) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.handleSaveUser(reqUser));
     }
 
-    @DeleteMapping("/user/{id}")
-    public String deleteUser(@PathVariable("id") long id) {
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable("id") long id) {
         this.userService.deleteUserById(id);
-        return "delete";
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @GetMapping("/user/{id}")
-    public User getUser(@PathVariable("id") long id) {
-        return this.userService.getUserById(id);
+    @GetMapping("/users/{id}")
+    public ResponseEntity<User> getUser(@PathVariable("id") long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(this.userService.getUserById(id));
     }
 
-    @GetMapping("/user")
-    public List<User> getAllUser() {
-        return this.userService.getAllUsers();
+    @GetMapping("/users")
+    public ResponseEntity<List<User>> getAllUser() {
+        return ResponseEntity.status(HttpStatus.OK).body(this.userService.getAllUsers());
     }
 
-    @PutMapping("/user")
-    public User updateUser(@RequestBody User reqUser) {
-        return this.userService.handleUpdateUser(reqUser);
+    @PutMapping("/users")
+    public ResponseEntity<User> updateUser(@RequestBody User reqUser) {
+        return ResponseEntity.status(HttpStatus.OK).body(this.userService.handleUpdateUser(reqUser));
     }
 
 }

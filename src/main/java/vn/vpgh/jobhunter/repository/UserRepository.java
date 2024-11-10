@@ -5,8 +5,17 @@ import org.springframework.stereotype.Repository;
 
 import vn.vpgh.jobhunter.domain.User;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     User save(User user);
+
+    void deleteById(long id);
+
+    Optional<User> findById(long id);
+
+    List<User> findAll();
 
 }

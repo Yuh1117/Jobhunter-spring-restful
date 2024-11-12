@@ -29,15 +29,10 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @ExceptionHandler(value = IdInvalidException.class)
-    public ResponseEntity<String> handleIdException(IdInvalidException idException) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(idException.getMessage());
-    }
-
     @GetMapping("/users/{id}")
     public ResponseEntity<User> getUser(@PathVariable("id") long id) throws IdInvalidException {
         if (id < 0) {
-            throw new IdInvalidException("test cai");
+            throw new IdInvalidException("test global");
         }
         return ResponseEntity.status(HttpStatus.OK).body(this.userService.getUserById(id));
     }

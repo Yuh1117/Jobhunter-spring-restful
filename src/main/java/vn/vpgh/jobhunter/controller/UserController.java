@@ -2,6 +2,7 @@ package vn.vpgh.jobhunter.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import vn.vpgh.jobhunter.domain.User;
@@ -13,13 +14,16 @@ import java.util.List;
 @RestController
 public class UserController {
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/users")
     public ResponseEntity<User> createNewUser(@RequestBody User reqUser) {
+        reqUser.setPassword(this.passwordEncoder.encode(reqUser.getPassword()));
         return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.handleSaveUser(reqUser));
     }
 

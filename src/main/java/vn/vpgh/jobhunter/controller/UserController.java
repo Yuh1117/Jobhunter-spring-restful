@@ -32,7 +32,7 @@ public class UserController {
     @GetMapping("/users/{id}")
     public ResponseEntity<User> getUser(@PathVariable("id") long id) throws IdInvalidException {
         if (id < 0) {
-            throw new IdInvalidException("test global");
+            throw new IdInvalidException("id is less than 0");
         }
         return ResponseEntity.status(HttpStatus.OK).body(this.userService.getUserById(id));
     }

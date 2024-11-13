@@ -1,4 +1,4 @@
-package vn.vpgh.jobhunter.service.error;
+package vn.vpgh.jobhunter.util.error;
 
 public class IdInvalidException extends Exception {
     public IdInvalidException(String message) {

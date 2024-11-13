@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import vn.vpgh.jobhunter.domain.User;
 import vn.vpgh.jobhunter.service.UserService;
-import vn.vpgh.jobhunter.service.error.IdInvalidException;
+import vn.vpgh.jobhunter.util.error.IdInvalidException;
 
 import java.util.List;
 

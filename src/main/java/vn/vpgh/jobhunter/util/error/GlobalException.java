@@ -2,6 +2,8 @@ package vn.vpgh.jobhunter.util.error;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -15,12 +17,15 @@ import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalException {
-    @ExceptionHandler(value = IdInvalidException.class)
-    public ResponseEntity<RestResponse<Object>> handleIdException(IdInvalidException idException) {
+    @ExceptionHandler(value = {
+            UsernameNotFoundException.class,
+            BadCredentialsException.class
+    })
+    public ResponseEntity<RestResponse<Object>> handleAuthException(Exception ex) {
         RestResponse<Object> res = new RestResponse<>();
         res.setStatusCode(HttpStatus.BAD_REQUEST.value());
-        res.setMessage(idException.getMessage());
-        res.setError("IdInvalidException");
+        res.setMessage(ex.getMessage());
+        res.setError("Invalid username/password");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
     }
 

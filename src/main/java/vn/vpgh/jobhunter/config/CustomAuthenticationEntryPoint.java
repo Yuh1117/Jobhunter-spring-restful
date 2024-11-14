@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import vn.vpgh.jobhunter.domain.RestResponse;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Component
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
@@ -32,7 +33,9 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         RestResponse<Object> res = new RestResponse<>();
         res.setStatusCode(HttpStatus.UNAUTHORIZED.value());
         res.setMessage("Invalid token");
-        res.setError(authException.getCause().getMessage());
+        res.setError(Optional.ofNullable(authException.getCause())
+                .map(Throwable::getMessage)
+                .orElse(authException.getMessage()));
 
         mapper.writeValue(response.getWriter(), res);
     }

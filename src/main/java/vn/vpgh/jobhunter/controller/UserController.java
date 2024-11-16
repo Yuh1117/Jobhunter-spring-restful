@@ -1,11 +1,14 @@
 package vn.vpgh.jobhunter.controller;
 
+import com.turkraft.springfilter.boot.Filter;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import vn.vpgh.jobhunter.domain.User;
+import vn.vpgh.jobhunter.domain.dto.ResultPaginationDTO;
 import vn.vpgh.jobhunter.service.UserService;
 import vn.vpgh.jobhunter.util.error.IdInvalidException;
 
@@ -42,8 +45,8 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getAllUsers() {
-        return ResponseEntity.status(HttpStatus.OK).body(this.userService.getAllUsers());
+    public ResponseEntity<ResultPaginationDTO> getAllUsers(@Filter Specification<User> specification) {
+        return ResponseEntity.status(HttpStatus.OK).body(this.userService.getAllUsers(specification));
     }
 
     @PutMapping("/users")

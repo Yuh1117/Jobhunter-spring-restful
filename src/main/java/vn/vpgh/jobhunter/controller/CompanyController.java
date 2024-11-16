@@ -1,5 +1,6 @@
 package vn.vpgh.jobhunter.controller;
 
+import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,16 +37,8 @@ public class CompanyController {
     }
 
     @GetMapping("/companies")
-    public ResponseEntity<ResultPaginationDTO> getAllCompanies(@RequestParam("current") Optional<String> currentOptional,
-            @RequestParam("pageSize") Optional<String> pageSizeOptional) {
-                String oCurrent = currentOptional.isPresent() ? currentOptional.get() : "";
-                String oPageSize = pageSizeOptional.isPresent() ? pageSizeOptional.get() : "";
-
-                int current = Integer.parseInt(oCurrent.equals("") ? "1" : oCurrent);
-                int pageSize = Integer.parseInt(oPageSize.equals("") ? "2" : oPageSize);
-
-                Pageable  pageable = PageRequest.of(current - 1, pageSize);
-        return ResponseEntity.status(HttpStatus.OK).body(this.companyService.getAllCompanies(pageable));
+    public ResponseEntity<ResultPaginationDTO> getAllCompanies(@Filter Specification<Company> specification) {
+        return ResponseEntity.status(HttpStatus.OK).body(this.companyService.getAllCompanies(specification));
     }
 
     @PutMapping("/companies")

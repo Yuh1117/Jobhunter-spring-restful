@@ -1,8 +1,11 @@
 package vn.vpgh.jobhunter.service;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import vn.vpgh.jobhunter.domain.User;
+import vn.vpgh.jobhunter.domain.dto.Meta;
+import vn.vpgh.jobhunter.domain.dto.ResultPaginationDTO;
 import vn.vpgh.jobhunter.repository.UserRepository;
 
 import java.util.List;
@@ -29,8 +32,15 @@ public class UserService {
         return optionalUser.isPresent() ? optionalUser.get() : null;
     }
 
-    public List<User> getAllUsers() {
-        return this.userRepository.findAll();
+    public ResultPaginationDTO getAllUsers(Specification<User> specification) {
+        ResultPaginationDTO res = new ResultPaginationDTO();
+        Meta meta = new Meta();
+        List<User> companies = this.userRepository.findAll(specification);
+
+        res.setMeta(meta);
+        res.setResult(companies);
+
+        return res;
     }
 
     public User handleUpdateUser(User reqUser) {

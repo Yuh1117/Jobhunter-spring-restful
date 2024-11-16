@@ -1,5 +1,7 @@
 package vn.vpgh.jobhunter.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -32,13 +34,17 @@ public class UserService {
         return optionalUser.isPresent() ? optionalUser.get() : null;
     }
 
-    public ResultPaginationDTO getAllUsers(Specification<User> specification) {
+    public ResultPaginationDTO getAllUsers(Specification<User> specification, Pageable pageable) {
         ResultPaginationDTO res = new ResultPaginationDTO();
         Meta meta = new Meta();
-        List<User> companies = this.userRepository.findAll(specification);
+        Page<User> pageUser = this.userRepository.findAll(specification, pageable);
 
+        meta.setPage(pageUser.getNumber() + 1);
+        meta.setPageSize(pageUser.getSize());
+        meta.setPages(pageUser.getTotalPages());
+        meta.setTotal(pageUser.getTotalElements());
         res.setMeta(meta);
-        res.setResult(companies);
+        res.setResult(pageUser.getContent());
 
         return res;
     }

@@ -37,8 +37,8 @@ public class CompanyController {
     }
 
     @GetMapping("/companies")
-    public ResponseEntity<ResultPaginationDTO> getAllCompanies(@Filter Specification<Company> specification) {
-        return ResponseEntity.status(HttpStatus.OK).body(this.companyService.getAllCompanies(specification));
+    public ResponseEntity<ResultPaginationDTO> getAllCompanies(@Filter Specification<Company> specification, Pageable pageable) {
+        return ResponseEntity.status(HttpStatus.OK).body(this.companyService.getAllCompanies(specification, pageable));
     }
 
     @PutMapping("/companies")

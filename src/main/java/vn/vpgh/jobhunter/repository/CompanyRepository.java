@@ -16,4 +16,6 @@ public interface CompanyRepository extends JpaRepository<Company, Long>, JpaSpec
 
     List<Company> findAll(Specification<Company> specification);
 
+    Page<Company> findAll(Specification<Company> specification, Pageable pageable);
+
 }

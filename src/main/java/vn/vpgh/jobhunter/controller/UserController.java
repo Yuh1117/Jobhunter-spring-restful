@@ -1,6 +1,7 @@
 package vn.vpgh.jobhunter.controller;
 
 import com.turkraft.springfilter.boot.Filter;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,8 +46,8 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<ResultPaginationDTO> getAllUsers(@Filter Specification<User> specification) {
-        return ResponseEntity.status(HttpStatus.OK).body(this.userService.getAllUsers(specification));
+    public ResponseEntity<ResultPaginationDTO> getAllUsers(@Filter Specification<User> specification, Pageable pageable) {
+        return ResponseEntity.status(HttpStatus.OK).body(this.userService.getAllUsers(specification, pageable));
     }
 
     @PutMapping("/users")

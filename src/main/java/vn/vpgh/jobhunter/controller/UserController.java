@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import vn.vpgh.jobhunter.domain.User;
 import vn.vpgh.jobhunter.domain.dto.ResultPaginationDTO;
 import vn.vpgh.jobhunter.service.UserService;
+import vn.vpgh.jobhunter.util.annotation.ApiMessage;
 import vn.vpgh.jobhunter.util.error.IdInvalidException;
 
 import java.util.List;
@@ -46,6 +47,7 @@ public class UserController {
     }
 
     @GetMapping("/users")
+    @ApiMessage("Get all users")
     public ResponseEntity<ResultPaginationDTO> getAllUsers(@Filter Specification<User> specification, Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(this.userService.getAllUsers(specification, pageable));
     }

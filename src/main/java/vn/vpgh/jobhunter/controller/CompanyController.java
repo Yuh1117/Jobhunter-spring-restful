@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import vn.vpgh.jobhunter.domain.Company;
 import vn.vpgh.jobhunter.domain.dto.ResultPaginationDTO;
 import vn.vpgh.jobhunter.service.CompanyService;
+import vn.vpgh.jobhunter.util.annotation.ApiMessage;
 
 @RestController
 public class CompanyController {
@@ -37,6 +38,7 @@ public class CompanyController {
     }
 
     @GetMapping("/companies")
+    @ApiMessage("Get all companies")
     public ResponseEntity<ResultPaginationDTO> getAllCompanies(@Filter Specification<Company> specification, Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(this.companyService.getAllCompanies(specification, pageable));
     }

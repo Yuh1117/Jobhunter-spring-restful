@@ -17,6 +17,7 @@ import vn.vpgh.jobhunter.util.error.IdInvalidException;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/v0.1")
 public class UserController {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;

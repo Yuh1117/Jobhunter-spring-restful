@@ -9,12 +9,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import vn.vpgh.jobhunter.domain.dto.LoginDTO;
 import vn.vpgh.jobhunter.domain.dto.ResLoginDTO;
 import vn.vpgh.jobhunter.util.SecurityUtil;
 
 @RestController
+@RequestMapping("/api/v0.1")
 public class AuthController {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final SecurityUtil securityUtil;

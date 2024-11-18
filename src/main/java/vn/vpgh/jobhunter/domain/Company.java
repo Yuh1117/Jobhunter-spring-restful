@@ -19,7 +19,7 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotBlank(message = "name is not empty")
+    @NotBlank(message = "Name cannot be empty")
     private String name;
 
     @Column(columnDefinition = "MEDIUMTEXT")

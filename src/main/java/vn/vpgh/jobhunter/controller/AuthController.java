@@ -46,6 +46,7 @@ public class AuthController {
         }
 
         @PostMapping("/auth/login")
+        @ApiMessage("Login")
         public ResponseEntity<ResLoginDTO> login(@Valid @RequestBody LoginDTO login) {
                 // Load input username/password into security
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
@@ -100,15 +101,16 @@ public class AuthController {
 
         @GetMapping("/auth/refresh")
         @ApiMessage("Get user by refresh token")
-        public ResponseEntity<ResLoginDTO> getResfreshToken(@CookieValue(name = "refresh_token", defaultValue = "huy") String refreshToken)
+        public ResponseEntity<ResLoginDTO> getResfreshToken(
+                        @CookieValue(name = "refresh_token", defaultValue = "huy") String refreshToken)
                         throws IdInvalidException {
-                if(refreshToken.equals("huy")){
+                if (refreshToken.equals("huy")) {
                         throw new IdInvalidException("There are no tokens in cookies");
                 }
                 // Check valid token
                 Jwt decodedRefreshToken = this.securityUtil.checkValidRefreshToken(refreshToken);
                 String email = decodedRefreshToken.getSubject();
-                
+
                 // Check user by email & token
                 User user = this.userService.getUserByEmailAndRefreshToken(email, refreshToken);
                 if (user == null) {
@@ -139,6 +141,28 @@ public class AuthController {
 
                 return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.SET_COOKIE, cookie.toString())
                                 .body(resLoginDTO);
+        }
+
+        @PostMapping("/auth/logout")
+        @ApiMessage("Logout")
+        public ResponseEntity<Void> logout() throws IdInvalidException {
+                String email = SecurityUtil.getCurrentUserLogin().get();
+                if (email.equals("")) {
+                        throw new IdInvalidException("Invalid access token");
+                }
+
+                // Update refresh token
+                this.userService.updateUserToken(email, null);
+
+                // Remove refresh token from cookies
+                ResponseCookie cookie = ResponseCookie.from("refresh_token", null)
+                                .httpOnly(true)
+                                .secure(true)
+                                .path("/")
+                                .maxAge(0)
+                                .build();
+
+                return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.SET_COOKIE, cookie.toString()).build();
         }
 
 }

@@ -48,7 +48,7 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable("id") long id) throws IdInvalidException {
         User user = this.userService.getUserById(id);
         if (user == null) {
-            throw new IdInvalidException("There is no user with id of " + id);
+            throw new IdInvalidException("There is no user with id " + id);
         }
 
         this.userService.deleteUserById(id);
@@ -60,7 +60,7 @@ public class UserController {
     public ResponseEntity<ResUserDTO> getUser(@PathVariable("id") long id) throws IdInvalidException {
         User user = this.userService.getUserById(id);
         if (user == null) {
-            throw new IdInvalidException("There is no user with id of " + id);
+            throw new IdInvalidException("There is no user with id " + id);
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(this.userService.convertToResUserDTO(user));
@@ -78,7 +78,7 @@ public class UserController {
     public ResponseEntity<ResUpdateUserDTO> updateUser(@RequestBody User reqUser) throws IdInvalidException {
         User user = this.userService.handleUpdateUser(reqUser);
         if (user == null) {
-            throw new IdInvalidException("There is no user with id of " + reqUser.getId());
+            throw new IdInvalidException("There is no user with id " + reqUser.getId());
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(this.userService.convertToResUpdateUserDTO(user));

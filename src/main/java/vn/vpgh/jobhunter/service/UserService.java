@@ -52,7 +52,7 @@ public class UserService {
 
         List<ResUserDTO> listUser = pageUser.getContent().stream()
                 .map(item -> new ResUserDTO(item.getId(), item.getName(), item.getEmail(), item.getGender(),
-                        item.getAddress(), item.getAge(), item.getCreateAt(), item.getUpdateAt()))
+                        item.getAddress(), item.getAge(), item.getCreatedAt(), item.getUpdatedAt()))
                 .collect(Collectors.toList());
 
         res.setResult(listUser);
@@ -96,7 +96,7 @@ public class UserService {
         res.setGender(user.getGender());
         res.setAddress(user.getAddress());
         res.setAge(user.getAge());
-        res.setCreateAt(user.getCreateAt());
+        res.setCreateAt(user.getCreatedAt());
 
         return res;
     }
@@ -109,8 +109,8 @@ public class UserService {
         res.setGender(user.getGender());
         res.setAddress(user.getAddress());
         res.setAge(user.getAge());
-        res.setCreateAt(user.getCreateAt());
-        res.setUpdateAt(user.getUpdateAt());
+        res.setCreateAt(user.getCreatedAt());
+        res.setUpdateAt(user.getUpdatedAt());
 
         return res;
     }
@@ -123,7 +123,7 @@ public class UserService {
         res.setGender(user.getGender());
         res.setAddress(user.getAddress());
         res.setAge(user.getAge());
-        res.setUpdateAt(user.getUpdateAt());
+        res.setUpdateAt(user.getUpdatedAt());
 
         return res;
     }

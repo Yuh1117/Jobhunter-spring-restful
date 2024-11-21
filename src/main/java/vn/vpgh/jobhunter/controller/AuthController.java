@@ -86,8 +86,9 @@ public class AuthController {
 
         @GetMapping("/auth/account")
         @ApiMessage("Get account") // F5 - Refresh
-        public ResponseEntity<ResLoginDTO.UserLogin> getAccount() {
+        public ResponseEntity<ResLoginDTO.UserGetAccount> getAccount() {
                 ResLoginDTO.UserLogin userLogin = new ResLoginDTO.UserLogin();
+                ResLoginDTO.UserGetAccount userGetAccount = new ResLoginDTO.UserGetAccount();
 
                 String email = SecurityUtil.getCurrentUserLogin().get();
                 User currentUser = this.userService.getUserByEmail(email);
@@ -95,8 +96,9 @@ public class AuthController {
                         userLogin.setId(currentUser.getId());
                         userLogin.setName(currentUser.getName());
                         userLogin.setEmail(currentUser.getEmail());
+                        userGetAccount.setUser(userLogin);
                 }
-                return ResponseEntity.status(HttpStatus.OK).body(userLogin);
+                return ResponseEntity.status(HttpStatus.OK).body(userGetAccount);
         }
 
         @GetMapping("/auth/refresh")

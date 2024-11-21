@@ -28,7 +28,7 @@ public class Company {
     private String address;
     private String logo;
 
-    @JsonFormat(pattern = "MM-dd-yyyy hh:mm:ss a", timezone = "GMT+7")
+    // @JsonFormat(pattern = "MM-dd-yyyy hh:mm:ss a", timezone = "GMT+7")
     private Instant createAt;
     private Instant updateAt;
     private String createBy;

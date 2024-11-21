@@ -12,10 +12,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import vn.vpgh.jobhunter.domain.User;
-import vn.vpgh.jobhunter.domain.dto.ResCreateUserDTO;
-import vn.vpgh.jobhunter.domain.dto.ResUpdateUserDTO;
-import vn.vpgh.jobhunter.domain.dto.ResUserDTO;
-import vn.vpgh.jobhunter.domain.dto.ResultPaginationDTO;
+import vn.vpgh.jobhunter.domain.response.ResCreateUserDTO;
+import vn.vpgh.jobhunter.domain.response.ResUpdateUserDTO;
+import vn.vpgh.jobhunter.domain.response.ResUserDTO;
+import vn.vpgh.jobhunter.domain.response.ResultPaginationDTO;
 import vn.vpgh.jobhunter.service.UserService;
 import vn.vpgh.jobhunter.util.annotation.ApiMessage;
 import vn.vpgh.jobhunter.util.error.IdInvalidException;

@@ -1,4 +1,4 @@
-package vn.vpgh.jobhunter.domain.dto;
+package vn.vpgh.jobhunter.domain.response;
 
 import java.time.Instant;
 
@@ -8,12 +8,12 @@ import vn.vpgh.jobhunter.util.constant.GenderEnum;
 
 @Getter
 @Setter
-public class ResCreateUserDTO {
+public class ResUpdateUserDTO {
     private long id;
     private String name;
     private String email;
     private GenderEnum gender;
     private String address;
     private int age;
-    private Instant createAt;
+    private Instant updateAt;
 }

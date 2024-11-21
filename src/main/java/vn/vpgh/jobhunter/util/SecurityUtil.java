@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.nimbusds.jose.util.Base64;
 
-import vn.vpgh.jobhunter.domain.dto.ResLoginDTO;
+import vn.vpgh.jobhunter.domain.response.ResLoginDTO;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;

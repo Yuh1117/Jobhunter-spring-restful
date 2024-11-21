@@ -1,4 +1,4 @@
-package vn.vpgh.jobhunter.domain.dto;
+package vn.vpgh.jobhunter.domain.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -1,4 +1,4 @@
-package vn.vpgh.jobhunter.domain;
+package vn.vpgh.jobhunter.domain.response;
 
 public class RestResponse<T> {
     private int statusCode;

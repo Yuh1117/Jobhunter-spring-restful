@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import vn.vpgh.jobhunter.domain.User;
-import vn.vpgh.jobhunter.domain.dto.LoginDTO;
-import vn.vpgh.jobhunter.domain.dto.ResLoginDTO;
+import vn.vpgh.jobhunter.domain.request.ReqLoginDTO;
+import vn.vpgh.jobhunter.domain.response.ResLoginDTO;
 import vn.vpgh.jobhunter.service.UserService;
 import vn.vpgh.jobhunter.util.SecurityUtil;
 import vn.vpgh.jobhunter.util.annotation.ApiMessage;
@@ -47,7 +47,7 @@ public class AuthController {
 
         @PostMapping("/auth/login")
         @ApiMessage("Login")
-        public ResponseEntity<ResLoginDTO> login(@Valid @RequestBody LoginDTO login) {
+        public ResponseEntity<ResLoginDTO> login(@Valid @RequestBody ReqLoginDTO login) {
                 // Load input username/password into security
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                                 login.getUsername(), login.getPassword());

@@ -34,7 +34,7 @@ public class UserController {
     @PostMapping("/users")
     @ApiMessage("Create a user")
     public ResponseEntity<ResCreateUserDTO> createNewUser(@Valid @RequestBody User reqUser) throws IdInvalidException {
-        boolean isEmailExist = this.userService.isEmaliExist(reqUser.getEmail());
+        boolean isEmailExist = this.userService.isEmailExist(reqUser.getEmail());
         if (isEmailExist) {
             throw new IdInvalidException("Email already exists");
         }

@@ -8,15 +8,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import vn.vpgh.jobhunter.domain.Company;
+import vn.vpgh.jobhunter.domain.User;
 import vn.vpgh.jobhunter.domain.response.ResultPaginationDTO;
 import vn.vpgh.jobhunter.repository.CompanyRepository;
+import vn.vpgh.jobhunter.repository.UserRepository;
 
 @Service
 public class CompanyService {
     private final CompanyRepository companyRepository;
+    private final UserRepository userRepository;
 
-    public CompanyService(CompanyRepository companyRepository) {
+    public CompanyService(CompanyRepository companyRepository, UserRepository userRepository) {
         this.companyRepository = companyRepository;
+        this.userRepository = userRepository;
     }
 
     public Company handleSaveCompany(Company company) {
@@ -63,6 +67,11 @@ public class CompanyService {
     }
 
     public void deleteCompanyById(long id) {
+        Company company = this.getCompanyById(id);
+        if (company != null) {
+            List<User> users = this.userRepository.findByCompany(company);
+            this.userRepository.deleteAll(users);
+        }
         this.companyRepository.deleteById(id);
     }
 }

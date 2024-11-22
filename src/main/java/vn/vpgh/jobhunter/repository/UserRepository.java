@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
+import vn.vpgh.jobhunter.domain.Company;
 import vn.vpgh.jobhunter.domain.User;
 
 import java.util.List;
@@ -29,5 +30,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     boolean existsByEmail(String email);
 
     User findByEmailAndRefreshToken(String email, String refreshToken);
+
+    List<User> findByCompany(Company company);
 
 }

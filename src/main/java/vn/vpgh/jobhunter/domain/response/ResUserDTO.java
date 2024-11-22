@@ -19,6 +19,17 @@ public class ResUserDTO {
     private GenderEnum gender;
     private String address;
     private int age;
-    private Instant createAt;
-    private Instant updateAt;
+    private Instant createdAt;
+    private Instant updatedAt;
+    private CompanyUser company;
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class CompanyUser {
+        private long id;
+        private String name;
+
+    }
 }

@@ -6,9 +6,6 @@ import com.turkraft.springfilter.boot.Filter;
 
 import jakarta.validation.Valid;
 import vn.vpgh.jobhunter.domain.Skill;
-import vn.vpgh.jobhunter.domain.User;
-import vn.vpgh.jobhunter.domain.response.ResUpdateUserDTO;
-import vn.vpgh.jobhunter.domain.response.ResUserDTO;
 import vn.vpgh.jobhunter.domain.response.ResultPaginationDTO;
 import vn.vpgh.jobhunter.service.SkillService;
 import vn.vpgh.jobhunter.util.annotation.ApiMessage;

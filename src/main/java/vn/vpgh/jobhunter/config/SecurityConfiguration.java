@@ -38,13 +38,14 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http,
-            CustomAuthenticationEntryPoint customAuthenticationEntryPoint) throws Exception {
+                                           CustomAuthenticationEntryPoint customAuthenticationEntryPoint) throws Exception {
+        String[] whiteList = {"/", "/api/v0.1/auth/login", "/api/v0.1/auth/refresh", "/storage/**", "/api/v0.1/companies/**", "/api/v0.1/jobs/**"};
         http
                 .csrf(c -> c.disable())
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(
                         authz -> authz
-                                .requestMatchers("/", "/api/v0.1/auth/login", "/api/v0.1/auth/refresh", "/storage/**")
+                                .requestMatchers(whiteList)
                                 .permitAll()
                                 .anyRequest().authenticated())
                 .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults())

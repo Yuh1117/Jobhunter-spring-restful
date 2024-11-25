@@ -43,14 +43,14 @@ public class ResumeController {
 
     @GetMapping("/resumes")
     @ApiMessage("Get all resumes")
-    public ResponseEntity<ResultPaginationDTO> getAllJobs(@Filter Specification<Resume> specification,
+    public ResponseEntity<ResultPaginationDTO> getAllResumes(@Filter Specification<Resume> specification,
                                                           Pageable pageable) {
         return ResponseEntity.ok().body(this.resumeService.getAllResume(specification, pageable));
     }
 
     @PutMapping("/resumes")
     @ApiMessage("Update a resume")
-    public ResponseEntity<ResUpdateResumeDTO> updateJob(@Valid @RequestBody Resume reqResume) throws IdInvalidException {
+    public ResponseEntity<ResUpdateResumeDTO> updateResume(@Valid @RequestBody Resume reqResume) throws IdInvalidException {
         Resume resume = this.resumeService.handleUpdateResume(reqResume);
         if (resume == null) {
             throw new IdInvalidException("Resume not found");
@@ -60,7 +60,7 @@ public class ResumeController {
 
     @DeleteMapping("/resumes/{id}")
     @ApiMessage("Delete a resume")
-    public ResponseEntity<Void> deleteJob(@PathVariable("id") long id) throws IdInvalidException {
+    public ResponseEntity<Void> deleteResume(@PathVariable("id") long id) throws IdInvalidException {
         Resume resume = this.resumeService.getResumeById(id);
         if (resume == null) {
             throw new IdInvalidException("Resume not found");

@@ -83,6 +83,7 @@ public class ResumeService {
 
         if (resume.getJob() != null) {
             resResumeDTO.setJob(new ResResumeDTO.JobResume(resume.getJob().getId(), resume.getJob().getName()));
+            resResumeDTO.setCompanyName(resume.getJob().getCompany().getName());
         }
 
         return resResumeDTO;

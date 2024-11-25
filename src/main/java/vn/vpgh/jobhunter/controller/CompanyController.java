@@ -12,6 +12,7 @@ import vn.vpgh.jobhunter.domain.Company;
 import vn.vpgh.jobhunter.domain.response.ResultPaginationDTO;
 import vn.vpgh.jobhunter.service.CompanyService;
 import vn.vpgh.jobhunter.util.annotation.ApiMessage;
+import vn.vpgh.jobhunter.util.error.IdInvalidException;
 
 @RestController
 @RequestMapping("/api/v0.1")
@@ -25,6 +26,17 @@ public class CompanyController {
     @PostMapping("/companies")
     public ResponseEntity<Company> createNewUser(@Valid @RequestBody Company reqCompany) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.companyService.handleSaveCompany(reqCompany));
+    }
+
+
+    @GetMapping("/companies/{id}")
+    @ApiMessage("Get a company")
+    public ResponseEntity<Company> getCompany(@PathVariable("id") long id) throws IdInvalidException {
+        Company company = this.companyService.getCompanyById(id);
+        if (company == null) {
+            throw new IdInvalidException("Company not found");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(company);
     }
 
     @GetMapping("/companies")

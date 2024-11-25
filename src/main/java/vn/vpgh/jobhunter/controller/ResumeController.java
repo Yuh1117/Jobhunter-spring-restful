@@ -50,7 +50,7 @@ public class ResumeController {
 
     @PutMapping("/resumes")
     @ApiMessage("Update a resume")
-    public ResponseEntity<ResUpdateResumeDTO> updateResume(@Valid @RequestBody Resume reqResume) throws IdInvalidException {
+    public ResponseEntity<ResUpdateResumeDTO> updateResume(@RequestBody Resume reqResume) throws IdInvalidException {
         Resume resume = this.resumeService.handleUpdateResume(reqResume);
         if (resume == null) {
             throw new IdInvalidException("Resume not found");

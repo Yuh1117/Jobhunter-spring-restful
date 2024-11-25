@@ -48,14 +48,14 @@ public class SkillController {
 
     @GetMapping("/skills")
     @ApiMessage("Get all skills")
-    public ResponseEntity<ResultPaginationDTO> getAllUsers(@Filter Specification<Skill> specification,
+    public ResponseEntity<ResultPaginationDTO> getAllSkills(@Filter Specification<Skill> specification,
                                                            Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(this.skillService.getAllSkills(specification, pageable));
     }
 
     @PutMapping("/skills")
     @ApiMessage("Update a skill")
-    public ResponseEntity<Skill> updateUser(@RequestBody Skill reqSkill) throws IdInvalidException {
+    public ResponseEntity<Skill> updateSkill(@RequestBody Skill reqSkill) throws IdInvalidException {
         Skill skill = this.skillService.getSkillById(reqSkill.getId());
         if (skill == null) {
             throw new IdInvalidException("There is no skill with id " + reqSkill.getId());

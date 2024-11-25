@@ -49,7 +49,7 @@ public class JobController {
 
     @PutMapping("/jobs")
     @ApiMessage("Update a job")
-    public ResponseEntity<ResUpdateJobDTO> updateJob(@Valid @RequestBody Job reqJob) throws IdInvalidException {
+    public ResponseEntity<ResUpdateJobDTO> updateJob(@RequestBody Job reqJob) throws IdInvalidException {
         Job job = this.jobService.getJobById(reqJob.getId());
         if (job == null) {
             throw new IdInvalidException("Job not found");

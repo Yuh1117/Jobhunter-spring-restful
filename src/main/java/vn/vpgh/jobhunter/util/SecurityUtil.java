@@ -43,7 +43,12 @@ public class SecurityUtil {
     @Value("${vpgh.jwt.refresh-token-validity-in-seconds}")
     private long refreshTokenExpiration;
 
-    public String createAccessToken(String email, String role, ResLoginDTO resLoginDTO) {
+    public String createAccessToken(String email, ResLoginDTO resLoginDTO) {
+        ResLoginDTO.UserInsideToken userInsideToken = new ResLoginDTO.UserInsideToken();
+        userInsideToken.setId(resLoginDTO.getUserLogin().getId());
+        userInsideToken.setEmail(resLoginDTO.getUserLogin().getEmail());
+        userInsideToken.setName(resLoginDTO.getUserLogin().getName());
+
         Instant now = Instant.now();
         Instant validity = now.plus(this.accessTokenExpiration, ChronoUnit.SECONDS);
         // @formatter:off
@@ -51,14 +56,19 @@ public class SecurityUtil {
             .issuedAt(now)
             .expiresAt(validity)
             .subject(email)
-            .claim("user", resLoginDTO.getUserLogin())
-            .claim("permission", role)
+            .claim("user", userInsideToken)
+            .claim("permission", resLoginDTO.getUserLogin().getRole().toString())
             .build();
         JwsHeader jwsHeader = JwsHeader.with(JWT_ALGORITHM).build();
         return this.jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, claims)).getTokenValue();
     }
 
     public String createRefreshToken(String email, ResLoginDTO resLoginDTO) {
+        ResLoginDTO.UserInsideToken userInsideToken = new ResLoginDTO.UserInsideToken();
+        userInsideToken.setId(resLoginDTO.getUserLogin().getId());
+        userInsideToken.setEmail(resLoginDTO.getUserLogin().getEmail());
+        userInsideToken.setName(resLoginDTO.getUserLogin().getName());
+
         Instant now = Instant.now();
         Instant validity = now.plus(this.refreshTokenExpiration, ChronoUnit.SECONDS);
         // @formatter:off
@@ -66,7 +76,7 @@ public class SecurityUtil {
             .issuedAt(now)
             .expiresAt(validity)
             .subject(email)
-            .claim("user", resLoginDTO)
+            .claim("user", userInsideToken)
             .build();
         JwsHeader jwsHeader = JwsHeader.with(JWT_ALGORITHM).build();
         return this.jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, claims)).getTokenValue();

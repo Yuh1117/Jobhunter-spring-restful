@@ -1,9 +1,16 @@
 package vn.vpgh.jobhunter.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+import com.turkraft.springfilter.converter.FilterSpecification;
+import com.turkraft.springfilter.converter.FilterSpecificationConverter;
+import com.turkraft.springfilter.parser.FilterParser;
+import com.turkraft.springfilter.parser.node.FilterNode;
+
 import vn.vpgh.jobhunter.domain.Job;
 import vn.vpgh.jobhunter.domain.Resume;
 import vn.vpgh.jobhunter.domain.User;
@@ -14,6 +21,7 @@ import vn.vpgh.jobhunter.domain.response.resume.ResUpdateResumeDTO;
 import vn.vpgh.jobhunter.repository.JobRepository;
 import vn.vpgh.jobhunter.repository.ResumeRepository;
 import vn.vpgh.jobhunter.repository.UserRepository;
+import vn.vpgh.jobhunter.util.SecurityUtil;
 import vn.vpgh.jobhunter.util.error.IdInvalidException;
 
 import java.util.List;
@@ -26,7 +34,14 @@ public class ResumeService {
     private final JobRepository jobRepository;
     private final UserRepository userRepository;
 
-    public ResumeService(ResumeRepository resumeRepository, JobRepository jobRepository, UserRepository userRepository) {
+    @Autowired
+    private FilterParser filterParser;
+
+    @Autowired
+    private FilterSpecificationConverter filterSpecificationConverter;
+
+    public ResumeService(ResumeRepository resumeRepository, JobRepository jobRepository,
+            UserRepository userRepository) {
         this.resumeRepository = resumeRepository;
         this.jobRepository = jobRepository;
         this.userRepository = userRepository;
@@ -38,7 +53,7 @@ public class ResumeService {
     }
 
     public ResCreateResumeDTO handleSaveResume(Resume resume) throws IdInvalidException {
-        //Check exist
+        // Check exist
         if (resume.getUser() != null) {
             Optional<User> optionalUser = this.userRepository.findById(resume.getUser().getId());
             User user = optionalUser.isPresent() ? optionalUser.get() : null;
@@ -99,7 +114,8 @@ public class ResumeService {
         meta.setPages(pageResume.getTotalPages());
         meta.setTotal(pageResume.getTotalElements());
 
-        List<ResResumeDTO> resumes = pageResume.getContent().stream().map(item -> convertToResResumeDTO(item)).collect(Collectors.toList());
+        List<ResResumeDTO> resumes = pageResume.getContent().stream().map(item -> convertToResResumeDTO(item))
+                .collect(Collectors.toList());
 
         res.setMeta(meta);
         res.setResult(resumes);
@@ -128,5 +144,28 @@ public class ResumeService {
 
     public void deleteResumeById(long id) {
         this.resumeRepository.deleteById(id);
+    }
+
+    public ResultPaginationDTO getResumesByUser(Pageable pageable) {
+        String email = SecurityUtil.getCurrentUserLogin().isPresent() ? SecurityUtil.getCurrentUserLogin().get() : "";
+        FilterNode node = filterParser.parse("email='" + email + "'");
+        FilterSpecification<Resume> spec = filterSpecificationConverter.convert(node);
+
+        Page<Resume> pageResume = this.resumeRepository.findAll(spec, pageable);
+        ResultPaginationDTO res = new ResultPaginationDTO();
+        ResultPaginationDTO.Meta meta = new ResultPaginationDTO.Meta();
+
+        meta.setPage(pageResume.getNumber() + 1);
+        meta.setPageSize(pageResume.getSize());
+        meta.setPages(pageResume.getTotalPages());
+        meta.setTotal(pageResume.getTotalElements());
+
+        List<ResResumeDTO> resumes = pageResume.getContent().stream().map(item -> convertToResResumeDTO(item))
+                .collect(Collectors.toList());
+
+        res.setMeta(meta);
+        res.setResult(resumes);
+
+        return res;
     }
 }

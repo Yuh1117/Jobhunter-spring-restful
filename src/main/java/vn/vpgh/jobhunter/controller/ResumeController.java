@@ -15,6 +15,8 @@ import vn.vpgh.jobhunter.domain.response.resume.ResUpdateResumeDTO;
 import vn.vpgh.jobhunter.service.ResumeService;
 import vn.vpgh.jobhunter.util.annotation.ApiMessage;
 import vn.vpgh.jobhunter.util.error.IdInvalidException;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api/v0.1")
@@ -27,7 +29,8 @@ public class ResumeController {
 
     @PostMapping("/resumes")
     @ApiMessage("Create a resume")
-    public ResponseEntity<ResCreateResumeDTO> createNewResume(@Valid @RequestBody Resume reqResume) throws IdInvalidException {
+    public ResponseEntity<ResCreateResumeDTO> createNewResume(@Valid @RequestBody Resume reqResume)
+            throws IdInvalidException {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.resumeService.handleSaveResume(reqResume));
     }
 
@@ -44,7 +47,7 @@ public class ResumeController {
     @GetMapping("/resumes")
     @ApiMessage("Get all resumes")
     public ResponseEntity<ResultPaginationDTO> getAllResumes(@Filter Specification<Resume> specification,
-                                                          Pageable pageable) {
+            Pageable pageable) {
         return ResponseEntity.ok().body(this.resumeService.getAllResume(specification, pageable));
     }
 
@@ -67,6 +70,11 @@ public class ResumeController {
         }
         this.resumeService.deleteResumeById(id);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/resumes/by-user")
+    public ResponseEntity<ResultPaginationDTO> getResumesByUser(Pageable pageable) {
+        return ResponseEntity.ok().body(this.resumeService.getResumesByUser(pageable));
     }
 
 }

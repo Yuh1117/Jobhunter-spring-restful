@@ -57,10 +57,10 @@ public class RoleController {
             throw new IdInvalidException("Role not found");
         }
 
-        boolean isNameExist = this.roleService.isNameExist(reqRole.getName());
-        if (isNameExist) {
-            throw new IdInvalidException("Name already exists");
-        }
+        // boolean isNameExist = this.roleService.isNameExist(reqRole.getName());
+        // if (isNameExist) {
+        //     throw new IdInvalidException("Name already exists");
+        // }
 
         return ResponseEntity.ok().body(this.roleService.handleUpdateRole(reqRole));
     }

@@ -60,12 +60,11 @@ public class AuthController {
                 User currentUser = this.userService.getUserByEmail(login.getUsername());
                 ResLoginDTO resLoginDTO = new ResLoginDTO();
                 ResLoginDTO.UserLogin userLogin = new ResLoginDTO.UserLogin(currentUser.getId(), currentUser.getName(),
-                                currentUser.getEmail());
+                                currentUser.getEmail(), currentUser.getRole());
                 resLoginDTO.setUserLogin(userLogin);
 
                 // Create and set access token
-                String role = authentication.getAuthorities().stream().findFirst().get().toString();
-                String accessToken = this.securityUtil.createAccessToken(login.getUsername(), role, resLoginDTO);
+                String accessToken = this.securityUtil.createAccessToken(login.getUsername(), resLoginDTO);
                 resLoginDTO.setAccessToken(accessToken);
 
                 // Create and set refresh token
@@ -96,6 +95,7 @@ public class AuthController {
                         userLogin.setId(currentUser.getId());
                         userLogin.setName(currentUser.getName());
                         userLogin.setEmail(currentUser.getEmail());
+                        userLogin.setRole(currentUser.getRole());
                         userGetAccount.setUser(userLogin);
                 }
                 return ResponseEntity.status(HttpStatus.OK).body(userGetAccount);
@@ -121,12 +121,11 @@ public class AuthController {
 
                 ResLoginDTO resLoginDTO = new ResLoginDTO();
                 ResLoginDTO.UserLogin userLogin = new ResLoginDTO.UserLogin(user.getId(), user.getName(),
-                                user.getEmail());
+                                user.getEmail(), user.getRole());
                 resLoginDTO.setUserLogin(userLogin);
 
                 // Create and set access token
-                String role = "ROLE_USER";
-                String newAccessToken = this.securityUtil.createAccessToken(email, role, resLoginDTO);
+                String newAccessToken = this.securityUtil.createAccessToken(email, resLoginDTO);
                 resLoginDTO.setAccessToken(newAccessToken);
 
                 // Create and set refresh token

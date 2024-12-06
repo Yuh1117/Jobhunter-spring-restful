@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import vn.vpgh.jobhunter.domain.User;
 import vn.vpgh.jobhunter.domain.request.ReqLoginDTO;
+import vn.vpgh.jobhunter.domain.response.ResCreateUserDTO;
 import vn.vpgh.jobhunter.domain.response.ResLoginDTO;
 import vn.vpgh.jobhunter.service.UserService;
 import vn.vpgh.jobhunter.util.SecurityUtil;
@@ -34,15 +36,17 @@ public class AuthController {
         private final AuthenticationManagerBuilder authenticationManagerBuilder;
         private final SecurityUtil securityUtil;
         private final UserService userService;
+        private final PasswordEncoder passwordEncoder;
 
         @Value("${vpgh.jwt.refresh-token-validity-in-seconds}")
         private long refreshTokenExpiration;
 
         public AuthController(AuthenticationManagerBuilder authenticationManagerBuilder, SecurityUtil securityUtil,
-                        UserService userService) {
+                        UserService userService, PasswordEncoder passwordEncoder) {
                 this.authenticationManagerBuilder = authenticationManagerBuilder;
                 this.securityUtil = securityUtil;
                 this.userService = userService;
+                this.passwordEncoder = passwordEncoder;
         }
 
         @PostMapping("/auth/login")
@@ -81,6 +85,19 @@ public class AuthController {
 
                 return ResponseEntity.status(HttpStatus.OK).header(HttpHeaders.SET_COOKIE, cookie.toString())
                                 .body(resLoginDTO);
+        }
+
+        @PostMapping("/auth/register")
+        @ApiMessage("Resgister")
+        public ResponseEntity<ResCreateUserDTO> register(@Valid @RequestBody User reqUser)
+                        throws IdInvalidException {
+                boolean isEmailExist = this.userService.isEmailExist(reqUser.getEmail());
+                if (isEmailExist) {
+                        throw new IdInvalidException("Email already exists");
+                }
+                reqUser.setPassword(this.passwordEncoder.encode(reqUser.getPassword()));
+                User user = this.userService.handleSaveUser(reqUser);
+                return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.convertToResCreateUserDTO(user));
         }
 
         @GetMapping("/auth/account")

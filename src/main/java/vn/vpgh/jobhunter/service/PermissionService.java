@@ -63,9 +63,16 @@ public class PermissionService {
     public void deletePermissionById(long id) {
         Permission permission = this.getPermissionById(id);
         permission.getRoles().forEach(role -> role.getPermissions().remove(permission));
-        
+
         this.permissionRepository.deleteById(id);
     }
 
+    public boolean isSameName(Permission reqPermission) {
+        Permission permission = this.getPermissionById(reqPermission.getId());
+        if (permission.getName().equals(reqPermission.getName())) {
+            return true;
+        }
+        return false;
+    }
 
 }

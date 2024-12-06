@@ -38,8 +38,9 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http,
-                                           CustomAuthenticationEntryPoint customAuthenticationEntryPoint) throws Exception {
-        String[] whiteList = {"/", "/api/v0.1/auth/login", "/api/v0.1/auth/refresh", "/storage/**", "/api/v0.1/companies/**", "/api/v0.1/jobs/**"};
+            CustomAuthenticationEntryPoint customAuthenticationEntryPoint) throws Exception {
+        String[] whiteList = { "/", "/api/v0.1/auth/login", "/api/v0.1/auth/register", "/api/v0.1/auth/refresh",
+                "/storage/**", "/api/v0.1/companies/**", "/api/v0.1/jobs/**" };
         http
                 .csrf(c -> c.disable())
                 .cors(Customizer.withDefaults())

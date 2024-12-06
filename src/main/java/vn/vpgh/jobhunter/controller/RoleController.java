@@ -42,6 +42,16 @@ public class RoleController {
         return ResponseEntity.status(HttpStatus.CREATED).body(role);
     }
 
+    @GetMapping("/roles/{id}")
+    @ApiMessage("Get a role")
+    public ResponseEntity<Role> getRole(@PathVariable("id") long id) throws IdInvalidException {
+        Role role = this.roleService.getRoleById(id);
+        if (role == null) {
+            throw new IdInvalidException("Role not found");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(role);
+    }
+
     @GetMapping("/roles")
     @ApiMessage("Get all roles")
     public ResponseEntity<ResultPaginationDTO> getAllRoles(@Filter Specification<Role> specification,
@@ -59,7 +69,7 @@ public class RoleController {
 
         // boolean isNameExist = this.roleService.isNameExist(reqRole.getName());
         // if (isNameExist) {
-        //     throw new IdInvalidException("Name already exists");
+        // throw new IdInvalidException("Name already exists");
         // }
 
         return ResponseEntity.ok().body(this.roleService.handleUpdateRole(reqRole));

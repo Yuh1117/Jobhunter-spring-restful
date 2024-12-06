@@ -59,7 +59,8 @@ public class PermissionController {
         }
 
         boolean isPermissionExist = this.permissionService.isPermissionExist(reqPermission);
-        if (isPermissionExist) {
+        boolean isSameName = this.permissionService.isSameName(reqPermission);
+        if (isPermissionExist && isSameName) {
             throw new IdInvalidException("Permission already exists");
         }
 

@@ -2,6 +2,7 @@ package vn.vpgh.jobhunter.repository;
 
 import java.util.List;
 
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -18,4 +19,6 @@ public interface RoleRepository extends JpaRepository<Role, Long>,  JpaSpecifica
     Page<Role> findAll(Specification<Role> specification, Pageable pageable);
 
     List<Role> findByIdIn(List<Long> id);
+
+    Role findByName(String name);
 }

@@ -57,7 +57,7 @@ public class SecurityUtil {
             .expiresAt(validity)
             .subject(email)
             .claim("user", userInsideToken)
-            .claim("permission", resLoginDTO.getUserLogin().getRole().toString())
+            .claim("permission", resLoginDTO.getUserLogin().getRole() != null ? resLoginDTO.getUserLogin().getRole().toString() : "")
             .build();
         JwsHeader jwsHeader = JwsHeader.with(JWT_ALGORITHM).build();
         return this.jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader, claims)).getTokenValue();

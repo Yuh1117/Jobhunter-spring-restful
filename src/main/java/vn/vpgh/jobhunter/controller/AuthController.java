@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import vn.vpgh.jobhunter.util.error.IdInvalidException;
 
 @RestController
-@RequestMapping("/api/v0.1")
+@RequestMapping("/api/v1")
 public class AuthController {
         private final AuthenticationManagerBuilder authenticationManagerBuilder;
         private final SecurityUtil securityUtil;

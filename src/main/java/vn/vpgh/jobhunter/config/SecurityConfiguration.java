@@ -40,17 +40,17 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http,
                                            CustomAuthenticationEntryPoint customAuthenticationEntryPoint) throws Exception {
-        String[] whiteList = {"/", "/api/v0.1/auth/login", "/api/v0.1/auth/register", "/api/v0.1/auth/refresh",
-                "/storage/**", "/api/v0.1/companies/**", "/api/v0.1/jobs/**"};
+        String[] whiteList = {"/", "/api/v1/auth/login", "/api/v1/auth/register", "/api/v1/auth/refresh",
+                "/storage/**", "/api/v1/companies/**", "/api/v1/jobs/**"};
         http
                 .csrf(c -> c.disable())
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(
                         authz -> authz
                                 .requestMatchers(whiteList).permitAll()
-                                .requestMatchers(HttpMethod.GET, "api/v0.1/companies").permitAll()
-                                .requestMatchers(HttpMethod.GET, "api/v0.1/jobs").permitAll()
-                                .requestMatchers(HttpMethod.GET, "api/v0.1/skills").permitAll()
+                                .requestMatchers(HttpMethod.GET, "api/v1/companies").permitAll()
+                                .requestMatchers(HttpMethod.GET, "api/v1/jobs").permitAll()
+                                .requestMatchers(HttpMethod.GET, "api/v1/skills").permitAll()
                                 .anyRequest().authenticated())
                 .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults())
                         .authenticationEntryPoint(customAuthenticationEntryPoint))

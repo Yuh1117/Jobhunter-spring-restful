@@ -17,7 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @RestController
-@RequestMapping("/api/v0.1")
+@RequestMapping("/api/v1")
 public class SkillController {
     private final SkillService skillService;
 

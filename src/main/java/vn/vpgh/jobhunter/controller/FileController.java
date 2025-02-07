@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
-@RequestMapping("/api/v0.1")
+@RequestMapping("/api/v1")
 public class FileController {
     @Value("${vpgh.upload-file.base-uri}")
     private String baseURI;

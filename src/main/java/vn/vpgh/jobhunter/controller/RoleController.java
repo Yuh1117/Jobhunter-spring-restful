@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
-@RequestMapping("/api/v0.1")
+@RequestMapping("/api/v1")
 public class RoleController {
     private final RoleService roleService;
 

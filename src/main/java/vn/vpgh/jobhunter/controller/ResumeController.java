@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/v0.1")
+@RequestMapping("/api/v1")
 public class ResumeController {
     private final ResumeService resumeService;
     private final UserService userService;

@@ -15,7 +15,7 @@ import vn.vpgh.jobhunter.util.annotation.ApiMessage;
 import vn.vpgh.jobhunter.util.error.IdInvalidException;
 
 @RestController
-@RequestMapping("/api/v0.1")
+@RequestMapping("/api/v1")
 public class CompanyController {
     private final CompanyService companyService;
 

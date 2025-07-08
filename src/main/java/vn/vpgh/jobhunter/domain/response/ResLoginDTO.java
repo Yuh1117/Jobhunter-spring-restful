@@ -13,6 +13,7 @@ import vn.vpgh.jobhunter.domain.Role;
 public class ResLoginDTO {
     @JsonProperty("access_token")
     private String accessToken;
+    @JsonProperty("user")
     private UserLogin userLogin;
 
     @Getter
